@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Device Inspector – Gold Glass Edition</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700;500&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/phosphor-icons@2.0.3/src/css/phosphor.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a060a 0%, #370015 100%);
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      color: #ffeeca;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .header {
+      width: 100vw;
+      padding-top: 2.5rem;
+      padding-bottom: 1.2rem;
+      background: linear-gradient(90deg, #36001088 45%, #c89400cc 95%);
+      text-align: center;
+      position: relative;
+    }
+    .header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #ffe595;
+      letter-spacing: 0.04em;
+      margin: 0;
+      background: linear-gradient(90deg, #ffd87c 0%, #ffebb8 40%, #ec9700 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 32px #c8a011aa, 0 1px 0px #d09205;
+      user-select: none;
+      animation: glowHeader 2.5s infinite alternate cubic-bezier(.9,0,.7,1);
+    }
+    .header p {
+      color: #ffd886;
+      font-size: 1.13em;
+      font-weight: 500;
+      letter-spacing: 0.028em;
+      margin: .2em 0 .7em 0;
+      font-family: 'JetBrains Mono', monospace;
+      text-shadow: 0 1px 18px #ac80097c;
+      opacity: .95;
+    }
+    .header .ph-device-mobile,
+    .header .ph-monitor  {
+      font-size: 2.4em;
+      color: #e8d393;
+      margin-bottom: -.27em;
+      margin-right: 0.08em;
+      vertical-align: middle;
+      filter: drop-shadow(0 2px 12px #b37611cc);
+      animation: floatIcon 3s infinite alternate;
+    }
+    @keyframes glowHeader {
+      0%   { text-shadow: 0 2px 38px #c8a011bb, 0 1px 0px #d09205; }
+      60% { text-shadow: 0 2px 60px #ffe09ecc, 0 1px 2px #ffedbe; }
+      100% { text-shadow: 0 2px 32px #c8a011bb, 0 1px 0px #d09205; }
+    }
+    @keyframes floatIcon {
+      0% {transform:translateY(-6px);}
+      100% {transform:translateY(7px);}
+    }
+    /* Cards grid for info */
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 2em;
+      padding: 2.8em 2vw 4em 2vw;
+      max-width: 1100px;
+      width: 100%;
+      position: relative;
+      z-index: 4;
+      margin: auto;
+    }
+    .card {
+      background: rgba(60,15,30,0.41);
+      border-radius: 1.5em;
+      border: 1.4px solid rgba(217,142,29, 0.19);
+      backdrop-filter: blur(15px) brightness(1.11) saturate(145%);
+      box-shadow: 0 5px 48px #c1830937, 0 1.5px 8px #91482c11;
+      padding: 1.4em 1.6em 1.4em 1.6em;
+      transition: box-shadow 0.27s, transform 0.35s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      color: #ffeac2;
+      min-height: 135px;
+      animation: cardFloat .85s cubic-bezier(.23,.7,.4,1.2);
+      overflow-wrap: break-word;
+    }
+    .card:hover {
+      box-shadow: 0 10px 56px #ffeba1b5, 0 1.5px 14px #ffaa4e21;
+      transform: scale(1.028) translateY(-8px) rotateZ(-0.75deg);
+    }
+    @keyframes cardFloat {
+      from {opacity:0;transform:translateY(35px) scale(.97);}
+      to   {opacity:1;transform:translateY(0) scale(1);}
+    }
+    .card .card-icon {
+      font-size: 2.4em;
+      color: #e2c063;
+      margin-bottom: 0.06em;
+      filter: drop-shadow(0 2px 18px #ffe59b72)
+    }
+    .card-title {
+      font-family: 'Inter',sans-serif;
+      font-size: 1.14em;
+      font-weight: 700;
+      color: #f9d972;
+      margin-bottom: .07em;
+      margin-top: .06em;
+      letter-spacing: .02em;
+      text-shadow:0 3px 2px #6319042e;
+    }
+    .card-desc {
+      font-size: 0.96em;
+      color: #e4c274;
+      font-family: 'JetBrains Mono',monospace;
+      opacity: .83;
+      margin-bottom: .7em;
+      margin-top: 0.05em;
+    }
+    .card-content {
+      font-size: 1.01em;
+      word-break: break-all;
+      flex:1;
+    }
+    /* Glassy orbs for glowing effect */
+    .bg-orb,
+    .bg-orb2,
+    .bg-orb3 {
+      position:fixed;z-index:0;border-radius:50%;
+      filter: blur(48px) saturate(140%);
+      opacity:.19; pointer-events:none;
+    }
+    .bg-orb  {width:400px;height:170px;top:-50px;left:-80px;background:radial-gradient(circle,#dc072a4b 70%,#f4bbc18f 125%);}
+    .bg-orb2 {width:350px;height:115px;top:55vh;left:80vw;background:radial-gradient(circle,#c27807b7 65%,#ffede1 120%);}
+    .bg-orb3 {width:260px;height:250px;top:58vh;left:-120px; background:radial-gradient(circle,#a41c36d0 70%,#ac7b0917 100%);}
+    /* Footer */
+    .footer {
+      width: 100vw;
+      text-align: center;
+      position: fixed;
+      bottom: 13px;
+      left: 0;
+      font-family: 'JetBrains Mono',monospace;
+      font-size: 1em;
+      color: #ffe6b68b;
+      letter-spacing: 0.07em;
+      opacity: 0.61;
+      user-select: none;
+      z-index: 999;
+      pointer-events:none;
+    }
+    .footer b { color: #ffb727;}
+    @media (max-width:650px) {
+      .header {padding-top:1.4em;}
+      .header h1 {font-size:1.19em;}
+      .device-grid {padding: 1.05em 1vw 3.7em 1vw;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb"></div><div class="bg-orb2"></div><div class="bg-orb3"></div>
+  <div class="header">
+    <span class="ph-monitor"></span>
+    <h1>Device Inspector</h1>
+    <p>Get rich details about your device, browser, and environment—beautifully revealed in gold glass cards. <span class="ph-device-mobile"></span></p>
+  </div>
+  <section class="device-grid" id="deviceGrid">
+    <!-- Cards will be inserted here -->
+  </section>
+  <div class="footer">
+    Made by <b>Dev Malvryx™</b>
+  </div>
+  <script>
+    // Helper for fancy icons
+    const icons = {
+      os: "ph-windows-logo", browser: "ph-globe", version: "ph-number-circle-seven", useragent: "ph-list-bullets",
+      cpu: "ph-cpu", ram: "ph-memory", gpu: "ph-armchair", screen: "ph-device-mobile", display: "ph-monitor-play",
+      locale: "ph-translate", conn: "ph-wifi-high", permissions: "ph-lock-key", touch: "ph-fingers-crossed",
+      sensors: "ph-thermometer-hot", cookies: "ph-cookie", js: "ph-code", storage: "ph-database",
+      battery: "ph-battery-charging", platform: "ph-device-mobile-speaker", net: "ph-cloud",
+      cores: "ph-aperture", vendor: "ph-buildings", incognito: "ph-mask-happy", timezone: "ph-clock-countdown",
+      color: "ph-eyedropper-sample", dir: "ph-arrows-left-right", mobile: "ph-phone", audio: "ph-speaker-high",
+      camera: "ph-camera", pointer: "ph-cursor-text", media: "ph-play-circle"
+    };
+
+    // Check standard browser/device info
+    function getDeviceInfo() {
+      const nav = navigator;
+      const scr = window.screen;
+
+      // Platform/OS
+      let plat = nav.userAgentData && nav.userAgentData.platform ? nav.userAgentData.platform : nav.platform;
+      let os = "Unknown";
+      if (/windows/i.test(plat)) os = "Windows";
+      else if (/linux/i.test(plat)) os = "Linux";
+      else if (/mac/i.test(plat)) os = "macOS";
+      else if (/android/i.test(nav.userAgent)) os = "Android";
+      else if (/iphone|ipad|ios/i.test(nav.userAgent)) os = "iOS";
+      else os = plat;
+
+      // Browser and Version
+      let browser = "Unknown", ver = "?", ua = nav.userAgent;
+      if (/edg\//i.test(ua)) {browser="Microsoft Edge"; ver=ua.match(/edg\/([\d\.]+)/i)?.[1];}
+      else if (/chrome|crios/i.test(ua)) {browser="Chrome"; ver=ua.match(/(chrome|crios)\/([\d\.]+)/i)?.[2];}
+      else if (/firefox|fxios/i.test(ua)) {browser="Firefox";ver=ua.match(/(firefox|fxios)\/([\d\.]+)/i)?.[2];}
+      else if (/safari/i.test(ua)) {browser="Safari";ver = ua.match(/version\/([\d\.]+)/i)?.[1] || "";}
+      else if (/opera|opr/i.test(ua)) {browser="Opera";ver = ua.match(/(opera|opr)\/([\d\.]+)/i)?.[2];}
+      else if (/msie|trident/i.test(ua)) {browser="Internet Explorer";}
+      else { browser="Unknown"; ver=""; }
+
+      // CPU cores and RAM
+      let cpuThreads = nav.hardwareConcurrency || "N/A";
+      let ram = nav.deviceMemory ? `${nav.deviceMemory} GB` : "N/A";
+
+      // Languages
+      let lang = nav.language || (nav.languages && nav.languages[0]) || "Unknown";
+
+      // Cookies and JS enabled
+      let cookies = navigator.cookieEnabled ? "Enabled" : "Disabled";
+      let js = "Enabled";
+
+      // Storage quotas
+      let storage = "N/A";
+      if (navigator.storage && navigator.storage.estimate) {
+        navigator.storage.estimate().then(est=>{
+          if(est.quota){
+            storage = est.usage 
+              ? `${(est.usage/1024/1024).toFixed(2)}MB / ${(est.quota/1024/1024).toFixed(1)}MB`
+              : `${(est.quota/1024/1024).toFixed(1)}MB max`;
+            updateCard('storage', storage);
+          }
+        });
+      }
+
+      // Timezone
+      let tz = Intl.DateTimeFormat().resolvedOptions().timeZone + " (UTC" + ((new Date().getTimezoneOffset()/60*-1)||0) + ")";
+
+      // Screen info
+      let scrInfo = `${scr.width} × ${scr.height}, ${scr.colorDepth}-bit color`;
+
+      // Touch support
+      let touch = "No";
+      if ('maxTouchPoints' in nav) touch = nav.maxTouchPoints > 0 ? "Yes" : "No";
+      else if ('ontouchstart' in window) touch = "Yes";
+
+      // Device/Connection
+      let conn, down, eff;
+      if (nav.connection) {
+        down = nav.connection.downlink ? nav.connection.downlink+"Mbps" : "";
+        eff = nav.connection.effectiveType || "";
+        conn = (down||eff) ? `${eff} ${down}`.trim() : "Detected";
+      } else conn = "Unknown";
+
+      // Incognito Mode attempt
+      let incog="Unknown";
+      try {
+        if (window.navigator.storage) {
+          window.navigator.storage.persist().then(x=>{
+            updateCard('incognito', x?'No or Not Detectable':'Maybe (Incognito?)');
+          });
+        }
+      } catch{}
+
+      // Color scheme
+      let color = window.matchMedia('(prefers-color-scheme: dark)').matches ? "Dark" : "Light";
+
+      // Direction
+      let dir = document.dir || "ltr";
+
+      // GPU info (WebGL)
+      let gpu = "N/A", vendor = "N/A";
+      try {
+        let canvas = document.createElement("canvas");
+        let gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if (gl) {
+          let dbg = gl.getExtension('WEBGL_debug_renderer_info');
+          if (dbg) {
+            gpu = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+            vendor = gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL);
+          } else {
+            gpu = gl.getParameter(gl.RENDERER);
+            vendor = gl.getParameter(gl.VENDOR);
+          }
+        }
+      }catch{}
+      // Permissions
+      let perm = "Unknown";
+      if (navigator.permissions) {
+        Promise.all([
+          navigator.permissions.query({name:'geolocation'}).catch(()=>null),
+          navigator.permissions.query({name:'camera'}).catch(()=>null),
+          navigator.permissions.query({name:'microphone'}).catch(()=>null),
+        ]).then(vals=>{
+          let txt = [];
+          if(vals[0]) txt.push('Geo: '+vals[0].state);
+          if(vals[1]) txt.push('Camera: '+vals[1].state);
+          if(vals[2]) txt.push('Mic: '+vals[2].state);
+          updateCard('permissions', txt.join(', '));
+        });
+      }
+      // Battery
+      if ('getBattery' in navigator) {
+        navigator.getBattery().then(function(b) {
+          let txt = (b.charging ? "Charging, " : "") + Math.round(b.level*100) + '%';
+          updateCard('battery', txt);
+        });
+      }
+
+      // Sensors/media support
+      let sensors = [
+        typeof DeviceOrientationEvent !== "undefined" ? "Orientation":"-",
+        typeof DeviceMotionEvent !== "undefined" ? "Motion":"-",
+        typeof AmbientLightSensor !== "undefined" ? "Light":"-",
+      ].filter(x=>x!=='-').join(', ') || "Unknown";
+      // Audio/video
+      let cam = "Unknown", mic="Unknown";
+      if (nav.mediaDevices && nav.mediaDevices.enumerateDevices) {
+        nav.mediaDevices.enumerateDevices().then(devs=>{
+          let cc = devs.filter(x=>x.kind==='videoinput').length;
+          let mc = devs.filter(x=>x.kind==='audioinput').length;
+          cam = cc>0?`${cc} camera(s)`:"None"; mic=mc>0?`${mc} mic(s)`:"None";
+          updateCard('camera', cam);
+          updateCard('audio', mic);
+        });
+      }
+
+      return [
+        {
+          key:'os', icon: icons.os,
+          label: 'Operating System',
+          desc: 'Identifies your device’s base operating system.',
+          val: os
+        },
+        {
+          key:'platform',icon: icons.platform,
+          label:'Platform',
+          desc:'Reported JavaScript platform (may be browser-dependent).',
+          val: plat
+        },
+        {
+          key:'browser', icon: icons.browser,
+          label: 'Browser',
+          desc: 'Type and version of your web browser.',
+          val: browser+(ver?" v"+ver:"")
+        },
+        {
+          key:'useragent', icon: icons.useragent,
+          label: 'User Agent',
+          desc: 'Browser engine & rendering environment.',
+          val: ua
+        },
+        {
+          key:'cpu', icon: icons.cpu,
+          label: 'Logical CPU Cores',
+          desc: 'Total hardware threads (browser may limit for privacy).',
+          val: cpuThreads
+        },
+        {
+          key:'ram',icon:icons.ram,
+          label:'Installed RAM',
+          desc:'Visible device RAM (in gigabytes, as reported).',
+          val: ram
+        },
+        {
+          key:'gpu',icon:icons.gpu,
+          label:'Graphics Processor',
+          desc:'GPU renderer or “graphics card” detected by browser.',
+          val: gpu
+        },
+        {
+          key:'vendor',icon:icons.vendor,
+          label:'GPU / Graphics Vendor',
+          desc:'Hardware vendor reported to browser.',
+          val: vendor
+        },
+        {
+          key:'screen',icon:icons.screen,
+          label:'Screen / Display',
+          desc: 'Resolution and color depth of your screen.',
+          val: scrInfo
+        },
+        {
+          key:'display',icon:icons.display,
+          label:'Device Pixel Ratio',
+          desc:'Ratio of device’s pixel density (useful for clarity/scaling).',
+          val: window.devicePixelRatio
+        },
+        {
+          key:'locale',icon:icons.locale,
+          label:'Locale',
+          desc:'Language/culture preference your browser uses.',
+          val: lang
+        },
+        {
+          key:'cookies',icon:icons.cookies,
+          label:'Cookies',
+          desc: 'Is cookies storage enabled in your browser?',
+          val: cookies
+        },
+        {
+          key:'js',icon:icons.js,
+          label:'JavaScript',
+          desc:'Is JavaScript enabled? (You’re seeing this, so yes!)',
+          val: js
+        },
+        {
+          key:'storage',icon:icons.storage,
+          label:'Storage Estimate',
+          desc:'Estimated quota (may change per-device & browser).',
+          val: storage
+        },
+        {
+          key:'timezone',icon:icons.timezone,
+          label:'Timezone (offset)',
+          desc:'Your system-reported timezone and UTC offset.',
+          val: tz
+        },
+        {
+          key:'color',icon:icons.color,
+          label:'Color Scheme',
+          desc:'Preferred browser theme (dark/light).',
+          val: color
+        },
+        {
+          key:'dir',icon:icons.dir,
+          label:'Document Direction',
+          desc:'Left-to-right ("ltr") or right-to-left ("rtl") script.',
+          val: dir
+        },
+        {
+          key:'touch',icon:icons.touch,
+          label:'Touch Support',
+          desc:'Does browser report touch screen capability?',
+          val: touch
+        },
+        {
+          key:'conn',icon:icons.conn,
+          label:'Connection',
+          desc:'Effective internet connection type and speed.',
+          val: conn
+        },
+        {
+          key:'incognito',icon:icons.incognito,
+          label:'Incognito / Private Browsing',
+          desc:'Detects (if possible) private browsing or incognito mode.',
+          val: incog
+        },
+        {
+          key:'permissions',icon:icons.permissions,
+          label:'Permissions State',
+          desc:'Status for Geolocation, Camera, and Microphone (if available).',
+          val: perm
+        },
+        {
+          key:'battery', icon:icons.battery,
+          label:'Battery',
+          desc:'Charging state and battery level (if available).',
+          val:'N/A'
+        },
+        {
+          key:'sensors', icon:icons.sensors,
+          label:'Sensor Support',
+          desc:'Orientation, motion, light sensor support.',
+          val: sensors
+        },
+        {
+          key:'camera',icon:icons.camera,
+          label:'Camera(s) Connected',
+          desc:'Number of camera devices detected.',
+          val: cam
+        },
+        {
+          key:'audio',icon:icons.audio,
+          label:'Microphone(s) Connected',
+          desc:'Number of audio input devices detected.',
+          val: mic
+        }
+      ];
+    }
+
+    // Inject card
+    function injectCards(list) {
+      let grid = document.getElementById('deviceGrid');
+      list.forEach(entry=>{
+        let el = document.createElement('div');
+        el.className = 'card';
+        el.id = 'card-' + entry.key;
+        el.innerHTML = `
+          <span class="card-icon ph ${entry.icon}"></span>
+          <div class="card-title">${entry.label}</div>
+          <div class="card-desc">${entry.desc}</div>
+          <div class="card-content" id="val-${entry.key}">${entry.val}</div>`;
+        grid.appendChild(el);
+      });
+    }
+    // Helper: update card value
+    function updateCard(key, newVal) {
+      let c = document.getElementById('val-'+key);
+      if (c) c.textContent = newVal;
+    }
+
+    // On load
+    (function(){
+      let data = getDeviceInfo();
+      injectCards(data);
+    })();
+  </script>
+</body>
+</html>
