@@ -30,7 +30,6 @@
       background: var(--c-bg);
       scroll-behavior: smooth;
     }
-
     .orb { pointer-events:none; position:fixed; border-radius:50%;
       filter:blur(52px) brightness(1.16); z-index:0; animation: orbfloat 21s infinite alternate cubic-bezier(.68,.13,.39,1.40);
       opacity: 0.15;
@@ -275,6 +274,7 @@
         { key:'audio',icon:icons.audio,label:'Microphone(s)',desc:'Mic audio inputs found.',val:mic },
       ];
     }
+
     function injectCards(list) {
       let grid = document.getElementById('deviceGrid');
       list.forEach(d=>{
@@ -292,18 +292,19 @@
         grid.appendChild(el);
       });
     }
+
     function updateCard(key, newVal) {
       let c = document.getElementById('val-'+key);
       if (c) c.textContent = newVal;
     }
-    // Music behavior
+
+    // Music behavior for MAX compatibility
     const music = document.getElementById('mainMusic');
     const musicBtn = document.getElementById('musicBtn');
     const musicBtnIcon = document.getElementById('musicBtnIcon');
     const musicBtnLabel = document.getElementById('musicBtnLabel');
     let musicStarted = false, isPaused = false;
 
-    // Play on any user tap (including scroll, tap, focus, etc)
     function playMusicTrigger() {
       if (!musicStarted) {
         music.play().then(()=> {
@@ -312,7 +313,7 @@
           isPaused = false;
           musicBtnIcon.innerHTML = `<svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>`;
           musicBtnLabel.textContent = "Pause";
-        }).catch(()=>{});
+        }).catch(()=>{ /* fail silent, allow next tap to retry */ });
       }
     }
     function pauseMusic() {
@@ -330,24 +331,22 @@
         if (isPaused) resumeMusic(); else pauseMusic();
       }
     }
-    // Listen for tap/focus/etc only ONCE
+    // Listen for tap/focus/click only ONCE for best coverage
     function setupMusicAutoPlay() {
-      let fired = false;
       function fireOnce() {
-        if (fired) return;
-        fired = true; window.removeEventListener('pointerdown', fireOnce, true); window.removeEventListener('touchstart', fireOnce, true);
         playMusicTrigger();
+        document.removeEventListener('click',fireOnce,true);
+        document.removeEventListener('touchend',fireOnce,true);
+        document.removeEventListener('pointerup',fireOnce,true);
       }
-      window.addEventListener('pointerdown', fireOnce, true);
-      window.addEventListener('touchstart', fireOnce, true);
+      document.addEventListener('click',fireOnce,true);
+      document.addEventListener('touchend',fireOnce,true);
+      document.addEventListener('pointerup',fireOnce,true);
     }
-    // Music pause/resume btn
     musicBtn.onclick = function(e) {
       e.stopPropagation(); e.preventDefault();
       toggleMusic();
     };
-
-    // On load
     (function(){
       let d = getDeviceInfo(); injectCards(d);
       setupMusicAutoPlay();
